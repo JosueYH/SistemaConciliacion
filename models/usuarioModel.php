@@ -31,13 +31,55 @@ class UsuarioModel extends Model
     }
   }
 
-  public function get($data)
+  public function get($id)
   {
     try {
-      $query = $this->db->connect()->prepare("SELECT * FROM usuario WHERE usuario=:usuario;");
-      $query->execute(['usuario' => $data['usuario']]);
+      $query = $this->db->connect()->prepare("SELECT * FROM usuarios WHERE id = ?;");
+      $query->execute([$id]);
+      return $query->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
-      error_log("UsuarioModel::search() -> " . $e->getMessage());
+      error_log("UsuarioModel::get() -> " . $e->getMessage());
+      return false;
+    }
+  }
+
+  public function getAll()
+  {
+    try {
+      $query = $this->db->connect()->query("SELECT * FROM usuarios;");
+      $query->execute();
+      return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+      error_log("UsuarioModel::getAll() -> " . $e->getMessage());
+      return false;
+    }
+  }
+
+  public function update($datos, $id)
+  {
+    try {
+      $sql = "UPDATE usuarios SET ";
+      foreach ($datos as $columna => $valor) {
+        $sql .= "$columna = '$valor', ";
+      }
+
+      $sql = rtrim($sql, ', '); // elimina la última coma y el espacio
+      $sql .= " WHERE id = $id;";
+      $query = $this->db->connect()->prepare($sql);
+      if ($query->execute()) return true;
+    } catch (PDOException $e) {
+      error_log("UsuarioModel::update() -> " . $e->getMessage());
+      return false;
+    }
+  }
+
+  public function delete($id)
+  {
+    try {
+      $query = $this->db->connect()->prepare("DELETE FROM usuarios WHERE id = ?;");
+      if ($query->execute([$id])) return true;
+    } catch (PDOException $e) {
+      error_log("UsuarioModel::delete() -> " . $e->getMessage());
       return false;
     }
   }

@@ -23,15 +23,6 @@
   </script>
   <!-- Bootstrap 4 -->
   <script src="<?= URL ?>dist/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <!-- ChartJS -->
-  <script src="<?= URL ?>dist/plugins/chart.js/Chart.min.js"></script>
-  <!-- Sparkline -->
-  <script src="<?= URL ?>dist/plugins/sparklines/sparkline.js"></script>
-  <!-- JQVMap -->
-  <script src="<?= URL ?>dist/plugins/jqvmap/jquery.vmap.min.js"></script>
-  <script src="<?= URL ?>dist/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
-  <!-- jQuery Knob Chart -->
-  <script src="<?= URL ?>dist/plugins/jquery-knob/jquery.knob.min.js"></script>
   <!-- daterangepicker -->
   <script src="<?= URL ?>dist/plugins/moment/moment.min.js"></script>
   <script src="<?= URL ?>dist/plugins/daterangepicker/daterangepicker.js"></script>
@@ -41,8 +32,11 @@
   <script src="<?= URL ?>dist/plugins/summernote/summernote-bs4.min.js"></script>
   <!-- overlayScrollbars -->
   <script src="<?= URL ?>dist/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+  <!-- jquery-validation -->
+  <script src="<?= URL ?>dist/plugins/jquery-validation/jquery.validate.min.js"></script>
+  <script src="<?= URL ?>dist/plugins/jquery-validation/additional-methods.min.js"></script>
   <!-- AdminLTE App -->
-  <script src="<?= URL ?>dist/js/adminlte.js"></script>
+  <script src="<?= URL ?>dist/js/adminlte.min.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="<?= URL ?>dist/js/demo.js"></script>
   <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
