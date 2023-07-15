@@ -2,7 +2,7 @@ import { url_base, language } from "./exports.js";
 
 // LOAD TABLE
 function loadTable() {
-  $("#table_usuario").DataTable({
+  $("#table_cargo").DataTable({
     destroy: true,
     ajax: {
       type: "post",
@@ -18,24 +18,21 @@ $(document).ready(function () {
   loadTable();
 });
 
-$("#new_usuario").click(function (e) {
+$("#new_cargo").click(function (e) {
   e.preventDefault();
   $("#accion").val("create");
 });
 
-$("#form_usuarios input, #form_usuarios select").on(
-  "input change",
-  function () {
-    if (this.checkValidity()) {
-      $(this).removeClass("is-invalid");
-    }
+$("#form_cargos input").on("input change", function () {
+  if (this.checkValidity()) {
+    $(this).removeClass("is-invalid");
   }
-);
+});
 
-// ? Agregar nuevo usuario
-$("#form_usuarios").submit(function (e) {
+// ? Agregar nuevo cargo
+$("#form_cargos").submit(function (e) {
   e.preventDefault();
-  $("#form_usuarios input, #form_usuarios select").each(function () {
+  $("#form_cargos input").each(function () {
     if (!this.checkValidity()) {
       $(this).addClass("is-invalid");
     } else {
@@ -50,19 +47,14 @@ $("#form_usuarios").submit(function (e) {
       url: `${url_base}/${$("#accion").val()}`,
       data: {
         id: $("#id").val(),
-        documento: $("#documento").val(),
-        nombres: $("#nombres").val(),
-        email: $("#email").val(),
-        password: $("#password").val(),
-        telefono: $("#telefono").val(),
-        direccion: $("#direccion").val(),
-        tipoUsuario: $("#tipoUsuario").val(),
-        tipoCargo: $("#tipoCargo").val(),
+        codigo: $("#codigo").val(),
+        nombre: $("#nombre").val(),
+        tipo: $("#tipo").val(),
       },
       dataType: "json",
       success: function (response) {
-        $("#form_usuarios")[0].reset();
-        $("#modal_usuarios").modal("toggle");
+        $("#form_cargos")[0].reset();
+        $("#modal_cargos").modal("toggle");
         if ("success" in response) {
           Swal.fire({
             title: "¡Éxito!",
@@ -83,11 +75,10 @@ $("#form_usuarios").submit(function (e) {
   }
 });
 
-// ? Consultar usuario
+// ? Consultar cargo
 $(document).on("click", "button.edit", function () {
   $("#accion").val("edit");
-  $("#modal_usuarios").modal("toggle");
-  $("#password").removeAttr("required");
+  $("#modal_cargos").modal("toggle");
   $.ajax({
     type: "POST",
     url: url_base + "/get",
@@ -95,14 +86,10 @@ $(document).on("click", "button.edit", function () {
     dataType: "json",
     success: function (response) {
       if ("success" in response) {
-        $("#id").val(response.user.id);
-        $("#documento").val(response.user.documento);
-        $("#nombres").val(response.user.nombres);
-        $("#email").val(response.user.email);
-        $("#telefono").val(response.user.telefono);
-        $("#direccion").val(response.user.direccion);
-        $("#tipoUsuario").val(response.user.idtipo_usuario);
-        $("#tipoCargo").val(response.user.idcargo);
+        $("#id").val(response.cargo.id);
+        $("#codigo").val(response.cargo.codigo);
+        $("#nombre").val(response.cargo.nombre);
+        $("#tipo").val(response.cargo.tipo);
       } else {
         Swal.fire({
           title: "¡Error!",
@@ -114,7 +101,7 @@ $(document).on("click", "button.edit", function () {
   });
 });
 
-// ? Eliminar usuario
+// ? Eliminar cargo
 $(document).on("click", "button.delete", function () {
   let row = $(this).parent().parent();
   let id = $(this).attr("id");
@@ -140,7 +127,7 @@ $(document).on("click", "button.delete", function () {
               text: response.success,
               icon: "success",
             });
-            $("#table_usuario").DataTable().row(row).remove().draw();
+            $('#table_cargo').DataTable().row(row).remove().draw();
           } else {
             Swal.fire({
               title: "¡Error!",

@@ -5,55 +5,130 @@ class Cliente extends Controller
   public $model;
   public $view;
 
-  function __construct()
+  public function __construct()
   {
-    // code...
-    // llamamos al pariente __construct
     parent::__construct();
-    $this->view->mensaje = "";
-    //esta var, va a cojer la funcion render para madar parametros >>libs/view.php/class/Vista/render($nombre)
   }
 
-  function render()
+  public function render()
   {
-    $this->view->render('cliente/index');
+    $this->view->render('cliente/index', [
+      "tipos" => $this->getTipos(),
+    ]);
   }
 
-  function agregarCliente()
+  public function index()
   {
-    $url = constant('URL') . 'consultarcliente';
-    //regla, y si lo retrona un true se manda el mensaje
-    if ($this->model->insertarCliente(['cedula_ruc' => $_POST['cedula_ruc'], 'tipo_cliente' => $_POST['tipo_cliente'], 'nombre' => $_POST['nombre'], 'correo' => $_POST['correo'], 'celular' => $_POST['celular'], 'telefono' => $_POST['telefono'], 'direccion' => $_POST['direccion']])) {
-      echo "<div class='alert alert-info alert-dismissible fade show' role='alert'>
-      <strong>Exitoso</strong> Se ha Registrado con Exito el Cliente
-      <a href='$url'> Revisar los clientes</a>
-    </div>";
+    $data = [];
+    $users = $this->model->getAll();
+    if (count($users) > 0) {
+      foreach ($users as $user) {
+        $botones = "<button class='btn btn-warning edit' id='{$user["id"]}'><i class='fas fa-pencil-alt'></i></button>";
+        $botones .= "<button class='ml-1 btn btn-danger delete' id='{$user["id"]}'><i class='fas fa-times'></i></button>";
+
+        $class = ($user["estado"] === "0") ? "danger" : "success";
+        $txt = ($user["estado"] === "0") ? "Inactivo" : "Activo";
+
+        $estado = "<span class='badge badge-$class text-uppercase font-weight-bold cursor-pointer delete' id='{$user["id"]}' style='font-size:12px'>$txt</span>";
+
+        $data[] = [
+          $user["id"],
+          $user["documento"],
+          $user["razon_social"],
+          $user["telefono"],
+          $user["tipo"],
+          $estado,
+          $botones,
+        ];
+      }
+    }
+
+    echo json_encode(["data" => $data]);
+  }
+
+  public function get()
+  {
+    if (empty($_POST['id'])) {
+      echo json_encode(["error" => "Faltan parametros"]);
+      return;
+    }
+
+    $cliente = $this->model->get($_POST['id']);
+    if ($cliente) {
+      unset($cliente["password"]);
+      echo json_encode(["success" => "cliente encontrado", "cliente" => $cliente]);
+      return;
     } else {
-      //mensaje
-    ?><div class='alert alert-warning alert-dismissible fade show' role='alert'>
-        <strong>Problemas</strong> Hubo un problema con el ingreso de este Cliente
-        <a href='<?php echo $url ?>'> Revisar los clientes</a>
-      </div>
-    <?php
+      echo json_encode(["error" => "Error al buscar cliente"]);
+      return;
     }
   }
-  /*============================================================================
-  FUNCION PARA LLAMAR A LA FUNCION BUSCAR Y EVITAR QUE EL USUARIO INGRESE UN REGISTRO
-    ============================================================================
-  */
-  function buscarRegistro()
-  {
 
-    if ($this->model->buscarCliente(['cedula_ruc' => $_GET['cedula_ruc']])) {
-    ?>
-      <p style="font-size:10px;color:red;">
-        Este numero de Cedula o RUC ya esta registrado
-      </p>
-<?php
-    } else {
-      $bool = true;
-      echo $bool;
+  public function create()
+  {
+    if (empty($_POST['documento']) || empty($_POST['razon_social']) || empty($_POST['telefono']) || empty($_POST['direccion']) || empty($_POST['tipo'])) {
+      echo json_encode(["error" => "Faltan parametros"]);
+      return;
     }
+
+    if ($this->model->save([
+      'documento' => $_POST['documento'],
+      'razon_social' => $_POST['razon_social'],
+      'telefono' => $_POST['telefono'],
+      'direccion' => $_POST['direccion'],
+      'idtipo_cliente' => $_POST['tipo'],
+    ])) {
+      echo json_encode(["success" => "cliente registrado"]);
+      return;
+    } else {
+      echo json_encode(["error" => "Error al registrar cliente"]);
+      return;
+    }
+  }
+
+  public function edit()
+  {
+    if (empty($_POST['id']) || empty($_POST['documento']) || empty($_POST['razon_social']) || empty($_POST['telefono']) || empty($_POST['direccion']) || empty($_POST['tipo'])) {
+      echo json_encode(["error" => "Faltan parametros"]);
+      return;
+    }
+
+    if ($this->model->update([
+      'id' => $_POST['id'],
+      'documento' => $_POST['documento'],
+      'razon_social' => $_POST['razon_social'],
+      'telefono' => $_POST['telefono'],
+      'direccion' => $_POST['direccion'],
+      'idtipo_cliente' => $_POST['tipo'],
+    ])) {
+      echo json_encode(["success" => "cliente actualizado"]);
+      return;
+    } else {
+      echo json_encode(["error" => "Error al actualizar cliente"]);
+      return;
+    }
+  }
+
+  public function delete()
+  {
+    if (empty($_POST['id'])) {
+      echo json_encode(["error" => "Faltan parametros"]);
+      return;
+    }
+
+    if ($this->model->delete($_POST['id'])) {
+      echo json_encode(["success" => "cliente eliminado"]);
+      return;
+    } else {
+      echo json_encode(["error" => "Error al eliminar cliente"]);
+      return;
+    }
+  }
+
+  public function getTipos()
+  {
+    require_once 'models/clienteTiposModel.php';
+    $tipos = new ClienteTiposModel();
+    return $tipos->getAll();
   }
 }
-?>

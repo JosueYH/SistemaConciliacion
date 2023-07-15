@@ -2,7 +2,7 @@ import { url_base, language } from "./exports.js";
 
 // LOAD TABLE
 function loadTable() {
-  $("#table_usuario").DataTable({
+  $("#table_provincia").DataTable({
     destroy: true,
     ajax: {
       type: "post",
@@ -18,12 +18,12 @@ $(document).ready(function () {
   loadTable();
 });
 
-$("#new_usuario").click(function (e) {
+$("#new_provincia").click(function (e) {
   e.preventDefault();
   $("#accion").val("create");
 });
 
-$("#form_usuarios input, #form_usuarios select").on(
+$("#form_provincias input, #form_provincias select").on(
   "input change",
   function () {
     if (this.checkValidity()) {
@@ -32,10 +32,10 @@ $("#form_usuarios input, #form_usuarios select").on(
   }
 );
 
-// ? Agregar nuevo usuario
-$("#form_usuarios").submit(function (e) {
+// ? Agregar nuevo provincia
+$("#form_provincias").submit(function (e) {
   e.preventDefault();
-  $("#form_usuarios input, #form_usuarios select").each(function () {
+  $("#form_provincias input, #form_provincias select").each(function () {
     if (!this.checkValidity()) {
       $(this).addClass("is-invalid");
     } else {
@@ -50,19 +50,13 @@ $("#form_usuarios").submit(function (e) {
       url: `${url_base}/${$("#accion").val()}`,
       data: {
         id: $("#id").val(),
-        documento: $("#documento").val(),
-        nombres: $("#nombres").val(),
-        email: $("#email").val(),
-        password: $("#password").val(),
-        telefono: $("#telefono").val(),
-        direccion: $("#direccion").val(),
-        tipoUsuario: $("#tipoUsuario").val(),
-        tipoCargo: $("#tipoCargo").val(),
+        nombre: $("#nombre").val(),
+        departamento: $("#departamento").val(),
       },
       dataType: "json",
       success: function (response) {
-        $("#form_usuarios")[0].reset();
-        $("#modal_usuarios").modal("toggle");
+        $("#form_provincias")[0].reset();
+        $("#modal_provincias").modal("toggle");
         if ("success" in response) {
           Swal.fire({
             title: "¡Éxito!",
@@ -83,11 +77,10 @@ $("#form_usuarios").submit(function (e) {
   }
 });
 
-// ? Consultar usuario
+// ? Consultar provincia
 $(document).on("click", "button.edit", function () {
   $("#accion").val("edit");
-  $("#modal_usuarios").modal("toggle");
-  $("#password").removeAttr("required");
+  $("#modal_provincias").modal("toggle");
   $.ajax({
     type: "POST",
     url: url_base + "/get",
@@ -95,14 +88,9 @@ $(document).on("click", "button.edit", function () {
     dataType: "json",
     success: function (response) {
       if ("success" in response) {
-        $("#id").val(response.user.id);
-        $("#documento").val(response.user.documento);
-        $("#nombres").val(response.user.nombres);
-        $("#email").val(response.user.email);
-        $("#telefono").val(response.user.telefono);
-        $("#direccion").val(response.user.direccion);
-        $("#tipoUsuario").val(response.user.idtipo_usuario);
-        $("#tipoCargo").val(response.user.idcargo);
+        $("#id").val(response.provincia.id);
+        $("#departamento").val(response.provincia.iddepartamento);
+        $("#nombre").val(response.provincia.nombre);
       } else {
         Swal.fire({
           title: "¡Error!",
@@ -114,7 +102,7 @@ $(document).on("click", "button.edit", function () {
   });
 });
 
-// ? Eliminar usuario
+// ? Eliminar provincia
 $(document).on("click", "button.delete", function () {
   let row = $(this).parent().parent();
   let id = $(this).attr("id");
@@ -140,7 +128,7 @@ $(document).on("click", "button.delete", function () {
               text: response.success,
               icon: "success",
             });
-            $("#table_usuario").DataTable().row(row).remove().draw();
+            $('#table_provincia').DataTable().row(row).remove().draw();
           } else {
             Swal.fire({
               title: "¡Error!",

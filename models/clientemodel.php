@@ -1,53 +1,84 @@
 <?php
-/*
-===============================================================================
-Modelo de Cliente... Se extiende a modelo, para estraer estraer funciones
-===============================================================================
-*/
-class ClienteModel extends Modelo
+
+class ClienteModel extends Model
 {
+
   public function __construct()
   {
     parent::__construct();
   }
-  
-  /*
-    ================================================================================
-     Funcion para insertar un nuevo cliente si este no se encuantra registrado
-    ================================================================================
-  */
-  public function insertarCliente($datos){
-    //INSERT INTO Cliente (id_cliente_proveedor,producto,stock,valor,medida,estado)
-    //VALUES ('1','sss','5','120.22','ki','activo')
-    $consulta=$this->db->connect()->prepare("INSERT INTO cliente (cedula_ruc,tipo_cliente,nombre,correo,celular,telefono,direccion)VALUES (:cedula_ruc,:tipo_cliente,:nombre,:correo,:celular,:telefono,:direccion)");
+
+  public function save($data)
+  {
     try {
-      //variable para alamcenar el query, cojiendo el nombre d ela base de datos y utilizacndo la funcion connect()
-      //interna no por default, y preparamos el codigo sql
-      //executamos e indicamosque va con quien
-      $consulta->execute(['cedula_ruc'=>$datos['cedula_ruc'],'tipo_cliente'=>$datos['tipo_cliente'],'nombre'=>$datos['nombre'],'correo'=>$datos['correo'] ,'celular'=>$datos['celular'],'telefono'=>$datos['telefono'],'direccion'=>$datos['direccion']]);
-      //return cuando sea afirmativa, caso que no
+      $query = $this->db->connect()->prepare("INSERT INTO clientes (documento, razon_social, telefono, direccion, idtipo_cliente) VALUES (:documento, :razon_social, :telefono, :direccion, :idtipo_cliente);");
+
+      $query->bindParam(':documento', $data['documento'], PDO::PARAM_STR);
+      $query->bindParam(':razon_social', $data['razon_social'], PDO::PARAM_STR);
+      $query->bindParam(':telefono', $data['telefono'], PDO::PARAM_STR);
+      $query->bindParam(':direccion', $data['direccion'], PDO::PARAM_STR);
+      $query->bindParam(':idtipo_cliente', $data['idtipo_cliente'], PDO::PARAM_STR);
+
+      $query->execute();
       return true;
     } catch (PDOException $e) {
-      //mostramos el false
+      error_log("ClienteModel::save() -> " . $e->getMessage());
       return false;
     }
   }
-  /*============================================================================
-  FUNCION PARA BUSCAR Y EVITAR QUE EL USUARIO INGRESE UN REGISTRO
-    ============================================================================
-  */
-  public function buscarCliente($datos)
+
+  public function get($id)
   {
-    $consulta=$this->db->connect()->prepare("SELECT * FROM cliente WHERE cedula_ruc=:cedula_ruc AND estado='activo'");
     try {
-      $consulta->execute(['cedula_ruc'=>$datos['cedula_ruc']]);
-      if ($row=$consulta->fetch()) {
-        // code...
-        return true;
-      }
+      $query = $this->db->connect()->prepare("SELECT clientes.*, clientes_tipo.nombre AS tipo FROM clientes JOIN clientes_tipo ON clientes.idtipo_cliente = clientes_tipo.id WHERE clientes.id = ?;");
+      $query->execute([$id]);
+      return $query->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
+      error_log("ClienteModel::get() -> " . $e->getMessage());
+      return false;
+    }
+  }
+
+  public function getAll()
+  {
+    try {
+      $query = $this->db->connect()->query("SELECT clientes.*, clientes_tipo.nombre AS tipo FROM clientes JOIN clientes_tipo ON clientes.idtipo_cliente = clientes_tipo.id;");
+      $query->execute();
+      return $query->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+      error_log("ClienteModel::getAll() -> " . $e->getMessage());
+      return false;
+    }
+  }
+
+  public function update($data)
+  {
+    try {
+      $query = $this->db->connect()->prepare("UPDATE clientes SET documento = :documento, razon_social = :razon_social, telefono = :telefono, direccion = :direccion, idtipo_cliente = :idtipo_cliente WHERE id = :id;");
+
+      $query->bindParam(':id', $data['id'], PDO::PARAM_INT);
+      $query->bindParam(':documento', $data['documento'], PDO::PARAM_STR);
+      $query->bindParam(':razon_social', $data['razon_social'], PDO::PARAM_STR);
+      $query->bindParam(':telefono', $data['telefono'], PDO::PARAM_STR);
+      $query->bindParam(':direccion', $data['direccion'], PDO::PARAM_STR);
+      $query->bindParam(':idtipo_cliente', $data['idtipo_cliente'], PDO::PARAM_INT);
+
+      $query->execute();
+      return true;
+    } catch (PDOException $e) {
+      error_log("ClienteModel::update() -> " . $e->getMessage());
+      return false;
+    }
+  }
+
+  public function delete($id)
+  {
+    try {
+      $query = $this->db->connect()->prepare("DELETE FROM clientes WHERE id = ?;");
+      if ($query->execute([$id])) return true;
+    } catch (PDOException $e) {
+      error_log("ClienteModel::delete() -> " . $e->getMessage());
       return false;
     }
   }
 }
-?>

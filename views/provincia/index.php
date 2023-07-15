@@ -10,7 +10,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Mantenimiento de clientes</h1>
+          <h1 class="m-0">Mantenimiento de Provincias</h1>
         </div>
         <div class="col-sm-6">
         </div>
@@ -24,20 +24,17 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <button id="new_cliente" class="btn btn-primary" data-toggle="modal" data-target="#modal_clientes">
-                <i class="fas fa-plus"></i> Añadir cliente</button>
+              <button id="new_provincia" class="btn btn-primary" data-toggle="modal" data-target="#modal_provincias">
+                <i class="fas fa-plus"></i> Añadir provincia</button>
             </div>
 
             <div class="card-body">
-              <table id="table_cliente" class="table table-bordered table-hover w-100">
+              <table id="table_provincia" class="table table-bordered table-hover w-100">
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Documento</th>
-                    <th>Razón Social</th>
-                    <th>Teléfono</th>
-                    <th>Tipo</th>
-                    <th>Estado</th>
+                    <th>Departamento</th>
+                    <th>Provincia</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -49,67 +46,44 @@
       </div>
     </div>
 
-    <div id="modal_clientes" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div id="modal_provincias" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
       <div class="modal-dialog modal-sm">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Formulario de cliente</h5>
+            <h5 class="modal-title">Formulario de provincia</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form method="post" id="form_clientes" novalidate>
+            <form method="post" id="form_provincias" novalidate>
               <input type="hidden" id="accion" value="create">
               <input type="hidden" id="id">
               <div class="row">
                 <div class="col-12">
                   <div class="mb-3">
-                    <label class="form-label" for="documento">Documento</label>
-                    <input type="text" class="form-control" id="documento" placeholder="12345678" required pattern="[0-9]+">
-                    <div class="invalid-feedback">Ingrese Documento</div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="mb-3">
-                    <label class="form-label" for="razon_social">Nombres / Razón Social</label>
-                    <input type="text" class="form-control" id="razon_social" placeholder="Nombres / Razón Social" required pattern="[a-zA-ZáéíóúÁÉÍÓÚÑñ ]+">
-                    <div class="invalid-feedback">Ingrese Nombres / Razón Social</div>
-                  </div>
-                </div>
-
-                <div class="col-12">
-                  <div class="mb-3">
-                    <label class="form-label" for="telefono">Telefono</label>
-                    <input type="tel" class="form-control" id="telefono" placeholder="987654321" required pattern="[0-9]+">
-                    <div class="invalid-feedback">Ingrese Teléfono</div>
-                  </div>
-                </div>
-                <div class="col-12">
-                  <div class="mb-3">
-                    <label class="form-label" for="direccion">Dirección</label>
-                    <input type="text" class="form-control" id="direccion" placeholder="AV Lima etc" pattern="[0-9a-zA-ZáéíóúÁÉÍÓÚÑñ ]+" required>
-                    <div class="invalid-feedback">Ingrese Dirección</div>
-                  </div>
-                </div>
-
-                <div class="col-12">
-                  <div class="mb-3">
-                    <label class="form-label" for="tipo">Tipo de cliente</label>
-                    <select class="form-control" id="tipo" required>
+                    <label class="form-label" for="departamento">Departamento</label>
+                    <select class="form-control" id="departamento" required>
                       <option value="" selected disabled>__ Seleccione __</option>
                       <?php
-                      foreach ($this->d['tipos'] as $tipo) {
-                        echo "<option value='{$tipo['id']}'>{$tipo['nombre']}</option>";
+                      foreach ($this->d['departamentos'] as $depa) {
+                        echo "<option value='{$depa['id']}'>{$depa['nombre']}</option>";
                       }
                       ?>
                     </select>
-                    <div class="invalid-feedback">Seleccione tipo de cliente</div>
+                    <div class="invalid-feedback">Seleccione Departamento</div>
+                  </div>
+                </div>
+                <div class="col-12">
+                  <div class="mb-3">
+                    <label class="form-label" for="nombre">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" placeholder="Nombre" required pattern="[a-zA-ZáéíóúÁÉÍÓÚÑñ ]+">
+                    <div class="invalid-feedback">Ingrese nombre</div>
                   </div>
                 </div>
 
                 <div class="col-md-12 mt-3 text-right">
-                  <button class="btn btn-primary" id="btn_add" type="submit">Guardar cliente</button>
+                  <button class="btn btn-primary" id="btn_add" type="submit">Guardar provincia</button>
                 </div>
               </div>
             </form>
@@ -133,6 +107,6 @@
 <script src="<?= URL ?>dist/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?= URL ?>dist/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
-<script src="<?= URL ?>dist/js/pages/cliente.js" type="module"></script>
+<script src="<?= URL ?>dist/js/pages/provincia.js" type="module"></script>
 
 <?php require 'views/footer.php'; ?>

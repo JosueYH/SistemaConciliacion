@@ -114,21 +114,25 @@
                     <label class="form-label" for="tipoUsuario">Tipo de Usuario</label>
                     <select class="form-control" id="tipoUsuario" required>
                       <option value="" selected disabled>__ Seleccione __</option>
-                      <option value="1">Admin</option>
-                      <option value="2">Secretaria</option>
-                      <option value="3">Abogado</option>
+                      <?php
+                      foreach ($this->d['tipos'] as $tipo) {
+                        echo "<option value='{$tipo['id']}'>{$tipo['nombre']}</option>";
+                      }
+                      ?>
                     </select>
                     <div class="invalid-feedback">Seleccione tipo de usuario</div>
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="mb-3">
-                    <label class="form-label" for="direccion">Tipo de cargo</label>
+                    <label class="form-label" for="tipoCargo">Tipo de cargo</label>
                     <select class="form-control" id="tipoCargo" required>
                       <option value="" selected disabled>__ Seleccione __</option>
-                      <option value="1">Admin</option>
-                      <option value="2">Secretaria</option>
-                      <option value="3">Abogado</option>
+                      <?php
+                      foreach ($this->d['cargos'] as $cargo) {
+                        echo "<option value='{$cargo['id']}'>{$cargo['nombre']}</option>";
+                      }
+                      ?>
                     </select>
                     <div class="invalid-feedback">Seleccione tipo de cargo</div>
                   </div>

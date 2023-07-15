@@ -12,7 +12,10 @@ class Usuario extends Controller
 
   public function render()
   {
-    $this->view->render('usuario/index');
+    $this->view->render('usuario/index', [
+      "tipos" => $this->getTipos(),
+      "cargos" => $this->getCargos(),
+    ]);
   }
 
   public function index()
@@ -23,8 +26,8 @@ class Usuario extends Controller
       foreach ($users as $user) {
         // if ($user["idtipo_usuario"] == 1) continue;
 
-        $botones = "<button class='btn btn-warning edit' id='{$user["id"]}' data-toggle='modal' data-target='#modal_usuario'><i class='fas fa-pencil-alt'></i></button>";
-        $botones .= "<button class='ml-1 btn btn-danger delete' id='{$user["id"]}'><i class='fas fa-times text-white'></i></button>";
+        $botones = "<button class='btn btn-warning edit' id='{$user["id"]}'><i class='fas fa-pencil-alt'></i></button>";
+        $botones .= "<button class='ml-1 btn btn-danger delete' id='{$user["id"]}'><i class='fas fa-times'></i></button>";
 
         $class = "success";
         $txt = "Activo";
@@ -144,5 +147,19 @@ class Usuario extends Controller
       echo json_encode(["error" => "Error al eliminar usuario"]);
       return;
     }
+  }
+
+  public function getTipos()
+  {
+    require_once 'models/usuarioTiposModel.php';
+    $tipos = new UsuarioTiposModel();
+    return $tipos->getAll();
+  }
+
+  public function getCargos()
+  {
+    require_once 'models/cargoModel.php';
+    $tipos = new CargoModel();
+    return $tipos->getAll();
   }
 }

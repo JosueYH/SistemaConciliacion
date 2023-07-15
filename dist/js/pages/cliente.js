@@ -2,7 +2,7 @@ import { url_base, language } from "./exports.js";
 
 // LOAD TABLE
 function loadTable() {
-  $("#table_usuario").DataTable({
+  $("#table_cliente").DataTable({
     destroy: true,
     ajax: {
       type: "post",
@@ -18,12 +18,12 @@ $(document).ready(function () {
   loadTable();
 });
 
-$("#new_usuario").click(function (e) {
+$("#new_cliente").click(function (e) {
   e.preventDefault();
   $("#accion").val("create");
 });
 
-$("#form_usuarios input, #form_usuarios select").on(
+$("#form_clientes input, #form_clientes select").on(
   "input change",
   function () {
     if (this.checkValidity()) {
@@ -32,10 +32,10 @@ $("#form_usuarios input, #form_usuarios select").on(
   }
 );
 
-// ? Agregar nuevo usuario
-$("#form_usuarios").submit(function (e) {
+// ? Agregar nuevo cliente
+$("#form_clientes").submit(function (e) {
   e.preventDefault();
-  $("#form_usuarios input, #form_usuarios select").each(function () {
+  $("#form_clientes input, #form_clientes select").each(function () {
     if (!this.checkValidity()) {
       $(this).addClass("is-invalid");
     } else {
@@ -51,18 +51,15 @@ $("#form_usuarios").submit(function (e) {
       data: {
         id: $("#id").val(),
         documento: $("#documento").val(),
-        nombres: $("#nombres").val(),
-        email: $("#email").val(),
-        password: $("#password").val(),
+        razon_social: $("#razon_social").val(),
         telefono: $("#telefono").val(),
         direccion: $("#direccion").val(),
-        tipoUsuario: $("#tipoUsuario").val(),
-        tipoCargo: $("#tipoCargo").val(),
+        tipo: $("#tipo").val(),
       },
       dataType: "json",
       success: function (response) {
-        $("#form_usuarios")[0].reset();
-        $("#modal_usuarios").modal("toggle");
+        $("#form_clientes")[0].reset();
+        $("#modal_clientes").modal("toggle");
         if ("success" in response) {
           Swal.fire({
             title: "¡Éxito!",
@@ -83,10 +80,10 @@ $("#form_usuarios").submit(function (e) {
   }
 });
 
-// ? Consultar usuario
+// ? Consultar cliente
 $(document).on("click", "button.edit", function () {
   $("#accion").val("edit");
-  $("#modal_usuarios").modal("toggle");
+  $("#modal_clientes").modal("toggle");
   $("#password").removeAttr("required");
   $.ajax({
     type: "POST",
@@ -95,14 +92,12 @@ $(document).on("click", "button.edit", function () {
     dataType: "json",
     success: function (response) {
       if ("success" in response) {
-        $("#id").val(response.user.id);
-        $("#documento").val(response.user.documento);
-        $("#nombres").val(response.user.nombres);
-        $("#email").val(response.user.email);
-        $("#telefono").val(response.user.telefono);
-        $("#direccion").val(response.user.direccion);
-        $("#tipoUsuario").val(response.user.idtipo_usuario);
-        $("#tipoCargo").val(response.user.idcargo);
+        $("#id").val(response.cliente.id);
+        $("#documento").val(response.cliente.documento);
+        $("#razon_social").val(response.cliente.razon_social);
+        $("#telefono").val(response.cliente.telefono);
+        $("#direccion").val(response.cliente.direccion);
+        $("#tipo").val(response.cliente.idtipo_cliente);
       } else {
         Swal.fire({
           title: "¡Error!",
@@ -114,7 +109,7 @@ $(document).on("click", "button.edit", function () {
   });
 });
 
-// ? Eliminar usuario
+// ? Eliminar cliente
 $(document).on("click", "button.delete", function () {
   let row = $(this).parent().parent();
   let id = $(this).attr("id");
@@ -140,7 +135,7 @@ $(document).on("click", "button.delete", function () {
               text: response.success,
               icon: "success",
             });
-            $("#table_usuario").DataTable().row(row).remove().draw();
+            $("#table_cliente").DataTable().row(row).remove().draw();
           } else {
             Swal.fire({
               title: "¡Error!",
