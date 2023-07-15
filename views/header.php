@@ -33,7 +33,8 @@
   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
-<body class="hold-transition sidebar-mini layout-fixed sidebar-collapse">
+<!-- sidebar-collapse -->
+<body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
 
     <!-- Preloader -->
@@ -184,6 +185,29 @@
                   <a href="<?= URL ?>clientetipos" class="nav-link">
                     <i class="fas fa-angle-right nav-icon"></i>
                     <p>Tipos de Clientes</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-users"></i>
+                <p>
+                  Materias
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="<?= URL ?>materia" class="nav-link">
+                    <i class="fas fa-angle-right nav-icon"></i>
+                    <p>Listado</p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                  <a href="<?= URL ?>materiatipos" class="nav-link">
+                    <i class="fas fa-angle-right nav-icon"></i>
+                    <p>Tipos de Materias</p>
                   </a>
                 </li>
               </ul>
