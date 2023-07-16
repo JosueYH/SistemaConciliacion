@@ -1,51 +1,59 @@
-<?php
+<?php session_start();
 
 class Login extends Controller
 {
   public $model;
   public $view;
 
-  function __construct()
+  public function __construct()
   {
     parent::__construct();
   }
 
-  function render()
+  public function render()
   {
-    error_log('Login -> render');
-    $this->view->render('login/index');
+    $this->view->render('login/index', ["message" => 'vacio']);
   }
 
-  function init()
+  public function auth()
   {
-    if (empty($_POST['email']) && empty($_POST['passowrd'])) {
-      header("Location: " . URL);
+    if (empty($_POST['email']) || empty($_POST['password'])) {
+      $this->view->render('login/index', [
+        "message" => "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
+          <strong>Complete sus datos</strong>
+        </div>"
+      ]);
+      return;
     }
-    error_log('Login init');
 
-    $user = $this->model->login(['email' => $_POST['email'], 'passowrd' => $_POST['passowrd']]);
+    $user = $this->model->login($_POST['email']);
 
-    if ($user["email"] == $_POST["email"]) {
-
+    if (isset($user['email']) && ($user["email"] == $_POST["email"])) {
       if (password_verify($_POST["password"], $user["password"])) {
-        session_start();
-        echo "<div class='alert alert-success alert-dismissible fade show' role='alert'>
-          <strong>Cuenta Iniciada</strong> <br>Espere unos Momentos segundo para entrar
-        </div>";
+        $_SESSION['session'] = 'init';
+
+        $this->view->render('login/index', [
+          "message" => "<div class='alert alert-success alert-dismissible fade show' role='alert'>
+            <strong>Bienvenido</strong>
+          </div>"
+        ]);
       } else {
-        echo "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
-          <strong>Datos Incorrecto</strong> Su Clave o Nombre de Usuario son Incorrectas
-        </div>";
+        $this->view->render('login/index', [
+          "message" => "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
+            <strong>Contraseña no valida</strong>
+          </div>"
+        ]);
       }
     } else {
-      error_log('Login failed');
-      echo "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
-        <strong>Datos Incorrecto</strong> Su Clave o Nombre de Usuario son Incorrectas
-      </div>";
+      $this->view->render('login/index', [
+        "message" => "<div class='alert alert-warning alert-dismissible fade show' role='alert'>
+          <strong>Correo no valido</strong>
+        </div>"
+      ]);
     }
   }
 
-  function close()
+  public function close()
   {
     session_unset();
     session_destroy();

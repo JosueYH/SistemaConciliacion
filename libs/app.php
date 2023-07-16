@@ -4,7 +4,7 @@ require_once 'controllers/errores.php';
 
 class App
 {
-  function __construct()
+  public function __construct()
   {
     $url = isset($_GET['url']) ? $_GET['url'] : null;
     $url = rtrim($url, '/');
@@ -24,7 +24,7 @@ class App
     if (file_exists($fileController)) {
       if ($fileController == constant('RUTA')) {
         //si son direntes al cosntante...tendra que retornar al index
-        header('Location: /coop');
+        header('Location: ' . URL);
       }
 
       require_once $fileController;

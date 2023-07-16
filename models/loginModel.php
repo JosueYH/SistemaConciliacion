@@ -1,17 +1,17 @@
 <?php
 
-class LoginModel extends Modelo
+class LoginModel extends Model
 {
   public function __construct()
   {
     parent::__construct();
   }
 
-  public function login($datos)
+  public function login($email)
   {
-    $query = $this->db->connect()->prepare("SELECT * FROM usuarios WHERE email = :email AND password = :password;");
     try {
-      $query->execute(['email' => $datos['email'], 'password' => $datos['password']]);
+      $query = $this->query("SELECT * FROM usuarios WHERE email = '$email';");
+      $query->execute();
       return $query->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
       error_log("LoginModel -> " . $e->getMessage());

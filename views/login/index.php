@@ -25,7 +25,9 @@
 				<div class="col-md-6 col-lg-4">
 					<div class="login-wrap p-0">
 						<!-- <h3 class="mb-4 text-center"></h3> -->
-						<form action="<?= URL ?>login" method="post" class="signin-form">
+						<?= $this->d['message'] ?>
+
+						<form action="<?= URL ?>login/auth" method="post" class="signin-form">
 							<div class="form-group">
 								<input type="email" class="form-control" placeholder="Correo" name="email" required>
 							</div>

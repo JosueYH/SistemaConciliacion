@@ -168,7 +168,7 @@
             </li>
             <li class="nav-item">
               <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-users"></i>
+                <i class="nav-icon far fa-building"></i>
                 <p>
                   Clientes
                   <i class="right fas fa-angle-left"></i>
@@ -191,7 +191,7 @@
             </li>
             <li class="nav-item">
               <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-users"></i>
+                <i class="nav-icon fas fa-suitcase"></i>
                 <p>
                   Materias
                   <i class="right fas fa-angle-left"></i>
@@ -208,6 +208,23 @@
                   <a href="<?= URL ?>materiatipos" class="nav-link">
                     <i class="fas fa-angle-right nav-icon"></i>
                     <p>Tipos de Materias</p>
+                  </a>
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <i class="nav-icon far fa-folder"></i>
+                <p>
+                  Solicitudes
+                  <i class="right fas fa-angle-left"></i>
+                </p>
+              </a>
+              <ul class="nav nav-treeview">
+                <li class="nav-item">
+                  <a href="<?= URL ?>solicitud" class="nav-link">
+                    <i class="fas fa-angle-right nav-icon"></i>
+                    <p>Listado</p>
                   </a>
                 </li>
               </ul>

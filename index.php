@@ -20,9 +20,8 @@ require_once 'libs/app.php';
 
 require_once 'libs/applogin.php';
 
-// session_start();
-// if (isset($_SESSION['session'])) {
+if (isset($_SESSION['session'])) {
   $app = new App();
-// } else {
-//   $app = new AppLogin();
-// }
+} else {
+  $app = new AppLogin();
+}

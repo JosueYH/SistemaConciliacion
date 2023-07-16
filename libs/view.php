@@ -4,11 +4,11 @@ class View
 {
   public $d;
 
-  function __construct()
+  public function __construct()
   {
   }
 
-  function render($nombre, $data = [])
+  public function render($nombre, $data = [])
   {
     $this->d = $data;
     require 'views/' . $nombre . '.php';
