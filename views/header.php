@@ -60,7 +60,7 @@
             <!-- <span class="badge badge-danger navbar-badge">3</span> -->
           </a>
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-            <a href="#" class="dropdown-item">
+            <a href="<?= URL ?>login/close" class="dropdown-item">
               <div class="media">
                 <div class="media-body p-1">
                   <h3 class="dropdown-item-title">
@@ -124,7 +124,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="<?= URL ?>usuario-tipos" class="nav-link">
+                  <a href="<?= URL ?>usuariotipos" class="nav-link">
                     <i class="fas fa-angle-right nav-icon"></i>
                     <p>Tipos de Usuario</p>
                   </a>

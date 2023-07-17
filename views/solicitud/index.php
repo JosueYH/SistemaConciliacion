@@ -10,7 +10,7 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1 class="m-0">Mantenimiento de Usuarios</h1>
+          <h1 class="m-0">Mantenimiento de Solicitudes</h1>
         </div>
         <div class="col-sm-6">
         </div>
@@ -24,21 +24,21 @@
         <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <button id="new_usuario" class="btn btn-primary" data-toggle="modal" data-target="#modal_usuarios">
-                <i class="fas fa-plus"></i> Añadir Usuario</button>
+              <button id="new_solicitud" class="btn btn-primary" data-toggle="modal" data-target="#modal_solicitud">
+                <i class="fas fa-plus"></i> Añadir solicitud</button>
             </div>
 
             <div class="card-body">
-              <table id="table_usuario" class="table table-bordered table-hover w-100">
+              <table id="table_solicitud" class="table table-bordered table-hover w-100">
                 <thead>
                   <tr>
                     <th>ID</th>
                     <th>N° Exp.</th>
                     <th>Cliente</th>
                     <th>Docs</th>
-                    <th>Estado</th>
+                    <th>Abogado</th>
                     <th>Fecha</th>
-                    <th>Usuario</th>
+                    <th>Estado</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -50,96 +50,92 @@
       </div>
     </div>
 
-    <div id="modal_usuarios" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog">
+    <div id="modal_solicitud" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title">Formulario de Usuario</h5>
+            <h5 class="modal-title">Formulario de solicitud</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <form method="post" id="form_usuarios" novalidate>
+            <form method="post" id="form_solicitud" novalidate>
               <input type="hidden" id="accion" value="create">
               <input type="hidden" id="id">
               <div class="row">
-                <div class="col-md-4">
-                  <div class="mb-3">
-                    <label class="form-label" for="documento">Documento</label>
-                    <input type="text" class="form-control" id="documento" placeholder="12345678" required pattern="[0-9]+">
-                    <div class="invalid-feedback">Ingrese Documento</div>
-                  </div>
-                </div>
-                <div class="col-md-8">
-                  <div class="mb-3">
-                    <label class="form-label" for="nombres">Nombres</label>
-                    <input type="text" class="form-control" id="nombres" placeholder="Nombres y Appellidos" required pattern="[a-zA-ZáéíóúÁÉÍÓÚÑñ ]+">
-                    <div class="invalid-feedback">Ingrese Nombres y Appellidos</div>
-                  </div>
-                </div>
+                <div class="col-md-6">
+                  <fieldset>
+                    <legend>Datos de cliente</legend>
 
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label" for="email">Correo</label>
-                    <input type="email" class="form-control" id="email" placeholder="correo@correo.com" required pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
-                    <div class="invalid-feedback">Ingrese Correo</div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label" for="password">Contraseña</label>
-                    <input type="password" class="form-control" id="password" placeholder="Contraseña" required>
-                    <div class="invalid-feedback">Ingrese Contraseña</div>
-                  </div>
-                </div>
+                    <div class="col-12">
+                      <div class="mb-3">
+                        <label class="form-label" for="documento">Documento</label>
+                        <input type="text" class="form-control" id="documento" placeholder="12345678" required pattern="[0-9]+">
+                        <div class="invalid-feedback">Ingrese Documento</div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="mb-3">
+                        <label class="form-label" for="razon_social">Nombres / Razón Social</label>
+                        <input type="text" class="form-control" id="razon_social" placeholder="Nombres / Razón Social" required pattern="[a-zA-ZáéíóúÁÉÍÓÚÑñ ]+">
+                        <div class="invalid-feedback">Ingrese Nombres / Razón Social</div>
+                      </div>
+                    </div>
 
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label" for="telefono">Telefono</label>
-                    <input type="tel" class="form-control" id="telefono" placeholder="987654321" required pattern="[0-9]+">
-                    <div class="invalid-feedback">Ingrese Teléfono</div>
-                  </div>
-                </div>
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label" for="direccion">Dirección</label>
-                    <input type="text" class="form-control" id="direccion" placeholder="AV Lima etc" pattern="[0-9a-zA-ZáéíóúÁÉÍÓÚÑñ ]+" required>
-                    <div class="invalid-feedback">Ingrese Dirección</div>
-                  </div>
-                </div>
+                    <div class="col-12">
+                      <div class="mb-3">
+                        <label class="form-label" for="telefono">Telefono</label>
+                        <input type="tel" class="form-control" id="telefono" placeholder="987654321" required pattern="[0-9]+">
+                        <div class="invalid-feedback">Ingrese Teléfono</div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="mb-3">
+                        <label class="form-label" for="direccion">Dirección</label>
+                        <input type="text" class="form-control" id="direccion" placeholder="AV Lima etc" pattern="[0-9a-zA-ZáéíóúÁÉÍÓÚÑñ ]+" required>
+                        <div class="invalid-feedback">Ingrese Dirección</div>
+                      </div>
+                    </div>
 
-                <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label" for="tipoUsuario">Tipo de Usuario</label>
-                    <select class="form-control" id="tipoUsuario" required>
-                      <option value="" selected disabled>__ Seleccione __</option>
-                      <?php
-                      foreach ($this->d['tipos'] as $tipo) {
-                        echo "<option value='{$tipo['id']}'>{$tipo['nombre']}</option>";
-                      }
-                      ?>
-                    </select>
-                    <div class="invalid-feedback">Seleccione tipo de usuario</div>
-                  </div>
+                    <div class="col-12">
+                      <div class="mb-3">
+                        <label class="form-label" for="tipo">Tipo de cliente</label>
+                        <select class="form-control" id="tipo" required>
+                          <option value="" selected disabled>__ Seleccione __</option>
+                          <?php
+                          foreach ($this->d['clientesTipos'] as $tipo) {
+                            echo "<option value='{$tipo['id']}'>{$tipo['nombre']}</option>";
+                          }
+                          ?>
+                        </select>
+                        <div class="invalid-feedback">Seleccione tipo de cliente</div>
+                      </div>
+                    </div>
+                  </fieldset>
                 </div>
                 <div class="col-md-6">
-                  <div class="mb-3">
-                    <label class="form-label" for="tipoCargo">Tipo de cargo</label>
-                    <select class="form-control" id="tipoCargo" required>
-                      <option value="" selected disabled>__ Seleccione __</option>
-                      <?php
-                      foreach ($this->d['cargos'] as $cargo) {
-                        echo "<option value='{$cargo['id']}'>{$cargo['nombre']}</option>";
-                      }
-                      ?>
-                    </select>
-                    <div class="invalid-feedback">Seleccione tipo de cargo</div>
-                  </div>
-                </div>
+                  <fieldset>
+                    <legend>Solicitud</legend>
 
+                    <div class="col-12">
+                      <div class="mb-3">
+                        <label class="form-label" for="abogado">Abogado a cargo</label>
+                        <select class="form-control" id="abogado" required>
+                          <option value="" selected disabled>__ Seleccione __</option>
+                          <?php
+                          foreach ($this->d['abogados'] as $abogado) {
+                            echo "<option value='{$abogado['id']}'>{$abogado['nombres']}</option>";
+                          }
+                          ?>
+                        </select>
+                        <div class="invalid-feedback">Seleccione abogado</div>
+                      </div>
+                    </div>
+                  </fieldset>
+                </div>
                 <div class="col-md-12 mt-3 text-right">
-                  <button class="btn btn-primary" id="btn_add" type="submit">Guardar Usuario</button>
+                  <button class="btn btn-primary" id="btn_add" type="submit">Guardar cliente</button>
                 </div>
               </div>
             </form>
@@ -163,6 +159,6 @@
 <script src="<?= URL ?>dist/plugins/datatables-buttons/js/buttons.print.min.js"></script>
 <script src="<?= URL ?>dist/plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 
-<script src="<?= URL ?>dist/js/pages/usuario.js" type="module"></script>
+<script src="<?= URL ?>dist/js/pages/solicitud.js" type="module"></script>
 
 <?php require 'views/footer.php'; ?>

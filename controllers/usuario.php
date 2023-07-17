@@ -24,8 +24,6 @@ class Usuario extends Controller
     $users = $this->model->getAll();
     if (count($users) > 0) {
       foreach ($users as $user) {
-        // if ($user["idtipo_usuario"] == 1) continue;
-
         $botones = "<button class='btn btn-warning edit' id='{$user["id"]}'><i class='fas fa-pencil-alt'></i></button>";
         $botones .= "<button class='ml-1 btn btn-danger delete' id='{$user["id"]}'><i class='fas fa-times'></i></button>";
 
@@ -37,14 +35,6 @@ class Usuario extends Controller
         }
         $estado = "<span class='badge badge-$class text-uppercase font-weight-bold cursor-pointer delete' id='{$user["id"]}' style='font-size:12px'>$txt</span>";
 
-        if ($user["idtipo_usuario"] === "1") {
-          $tipo = "Cliente";
-        } else if ($user["idtipo_usuario"] === "3" && $user["estado"] === "2") {
-          $tipo = "Vendedor <button class='btn btn-success activate_seller' id='{$user["id"]}'><i class='fa fa-check'></i></button>";
-        } else {
-          $tipo = "Vendedor";
-        }
-
         $data[] = [
           $user["id"],
           $user["documento"],
@@ -52,7 +42,7 @@ class Usuario extends Controller
           $user["email"],
           $user["telefono"],
           $estado,
-          $tipo,
+          $user["tipo"],
           $botones,
         ];
       }

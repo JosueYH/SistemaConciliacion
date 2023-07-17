@@ -11,7 +11,7 @@ class SolicitudModel extends Model
   public function get($id)
   {
     try {
-      $query = $this->db->connect()->prepare("SELECT * FROM solicitudes WHERE id = ?;");
+      $query = $this->prepare("SELECT s.*, c.idtipo_cliente AS tipo FROM solicitudes s JOIN clientes c ON s.idcliente = c.id WHERE s.id = ?;");
       $query->execute([$id]);
       return $query->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -23,7 +23,7 @@ class SolicitudModel extends Model
   public function getAll()
   {
     try {
-      $query = $this->db->connect()->query("SELECT * FROM solicitudes;");
+      $query = $this->query("SELECT s.*, u.nombres AS abogado, c.razon_social AS cliente FROM solicitudes s JOIN usuarios u ON s.idusuario = u.id JOIN clientes c ON s.idcliente = c.id;");
       $query->execute();
       return $query->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -35,9 +35,11 @@ class SolicitudModel extends Model
   public function save($data)
   {
     try {
-      $query = $this->db->connect()->prepare("INSERT INTO solicitudes (n_expediente, url, idusuario, idcliente) VALUES (:n_expediente, :url, :idusuario, :idcliente);");
+      $nExp = $this->getMax();
 
-      $query->bindParam(':n_expediente', $data['n_expediente'], PDO::PARAM_STR);
+      $query = $this->prepare("INSERT INTO solicitudes (n_expediente, url, idusuario, idcliente) VALUES (:n_expediente, :url, :idusuario, :idcliente);");
+
+      $query->bindParam(':n_expediente', $nExp, PDO::PARAM_STR);
       $query->bindParam(':url', $data['url'], PDO::PARAM_STR);
       $query->bindParam(':idusuario', $data['idusuario'], PDO::PARAM_STR);
       $query->bindParam(':idcliente', $data['idcliente'], PDO::PARAM_STR);
@@ -53,7 +55,7 @@ class SolicitudModel extends Model
   public function update($data)
   {
     try {
-      $query = $this->db->connect()->prepare("UPDATE solicitudes SET n_expediente = :n_expediente, url = :url, idusuario = :idusuario, idcliente = :idcliente WHERE id = :id;");
+      $query = $this->prepare("UPDATE solicitudes SET n_expediente = :n_expediente, url = :url, idusuario = :idusuario, idcliente = :idcliente WHERE id = :id;");
 
       $query->bindParam(':n_expediente', $data['n_expediente'], PDO::PARAM_STR);
       $query->bindParam(':url', $data['url'], PDO::PARAM_STR);
@@ -72,11 +74,24 @@ class SolicitudModel extends Model
   public function delete($id)
   {
     try {
-      $query = $this->db->connect()->prepare("DELETE FROM solicitudes WHERE id = ?;");
+      $query = $this->prepare("DELETE FROM solicitudes WHERE id = ?;");
       $query->execute([$id]);
       return true;
     } catch (PDOException $e) {
       error_log("SolicitudModel::delete() -> " . $e->getMessage());
+      return false;
+    }
+  }
+
+  public function getMax()
+  {
+    try {
+      $max = $this->query("SELECT MAX(n_expediente) AS max FROM solicitudes;");
+      $max->execute();
+      $nExp = $max->fetch(PDO::FETCH_ASSOC)['max'];
+      return ($nExp == null) ? 1 : $nExp++;
+    } catch (PDOException $e) {
+      error_log("SolicitudModel::getMax() -> " . $e->getMessage());
       return false;
     }
   }

@@ -1,18 +1,32 @@
 <?php
 
+require_once 'controllers/cliente.php';
+require_once 'models/usuarioModel.php';
+require_once 'models/clienteModel.php';
+
 class Solicitud extends Controller
 {
   public $model;
   public $view;
+  public $cliente;
+  public $clienteModel;
+  public $usuarioModel;
 
   public function __construct()
   {
     parent::__construct();
+    $this->cliente = new Cliente();
+    $this->clienteModel = new ClienteModel();
+    $this->usuarioModel = new UsuarioModel();
   }
 
   public function render()
   {
-    $this->view->render('solicitud/index');
+    $this->view->render('solicitud/index', [
+      "clientes" => $this->clienteModel->getAll(),
+      "clientesTipos" => $this->cliente->getTipos(),
+      "abogados" => $this->usuarioModel->getAll("ut.nombre", "Abogado"),
+    ]);
   }
 
   public function index()
@@ -41,8 +55,9 @@ class Solicitud extends Controller
         $data[] = [
           $solicitud["id"],
           $solicitud["n_expediente"],
-          $solicitud["idusuario"],
+          $solicitud["cliente"],
           $solicitud["url"],
+          $solicitud["abogado"],
           $solicitud["fecha"],
           $estado,
           $botones,
@@ -73,15 +88,26 @@ class Solicitud extends Controller
 
   public function create()
   {
-    if (empty($_POST['n_expediente']) || empty($_POST['url']) || empty($_POST['usuario'])) {
+    if (empty($_POST['documento']) || empty($_POST['razon_social']) || empty($_POST['telefono']) || empty($_POST['tipo']) || empty($_POST['abogado'])) {
       echo json_encode(["error" => "Faltan parametros"]);
       return;
     }
 
+    $cliente = $this->clienteModel->get($_POST['documento'], 'documento');
+    if (empty($cliente)) {
+      $this->clienteModel->save([
+        'documento' => $_POST['documento'],
+        'razon_social' => $_POST['razon_social'],
+        'telefono' => $_POST['telefono'],
+        'direccion' => $_POST['direccion'],
+        'idtipo_cliente' => $_POST['tipo'],
+      ]);
+      $cliente = $this->clienteModel->get($_POST['documento'], 'documento');
+    }
+
     if ($this->model->save([
-      'n_expediente' => $_POST['n_expediente'],
-      'url' => $_POST['url'],
-      'idusuario' => $_POST['usuario'],
+      'idusuario' => $_POST['abogado'],
+      'idcliente' => $cliente['id'],
     ])) {
       echo json_encode(["success" => "solicitud registrado"]);
       return;

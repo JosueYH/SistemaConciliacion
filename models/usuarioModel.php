@@ -11,7 +11,7 @@ class UsuarioModel extends Model
   public function save($data)
   {
     try {
-      $query = $this->db->connect()->prepare("INSERT INTO usuarios(nombres, direccion, password, idcargo, documento, telefono, email, idtipo_usuario) VALUES (:nombres, :direccion, :password, :idcargo, :documento, :telefono, :email, :idtipo_usuario);");
+      $query = $this->prepare("INSERT INTO usuarios(nombres, direccion, password, idcargo, documento, telefono, email, idtipo_usuario) VALUES (:nombres, :direccion, :password, :idcargo, :documento, :telefono, :email, :idtipo_usuario);");
 
       $query->bindParam(':nombres', $data['nombres'], PDO::PARAM_STR);
       $query->bindParam(':direccion', $data['direccion'], PDO::PARAM_STR);
@@ -30,10 +30,10 @@ class UsuarioModel extends Model
     }
   }
 
-  public function get($id)
+  public function get($id, $colum = "id")
   {
     try {
-      $query = $this->db->connect()->prepare("SELECT * FROM usuarios WHERE id = ?;");
+      $query = $this->prepare("SELECT * FROM usuarios WHERE $colum = ?;");
       $query->execute([$id]);
       return $query->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -42,10 +42,12 @@ class UsuarioModel extends Model
     }
   }
 
-  public function getAll()
+  public function getAll($colum = null, $value = null)
   {
     try {
-      $query = $this->db->connect()->query("SELECT * FROM usuarios;");
+      $sql = "";
+      if ($colum !== null) $sql = " WHERE $colum = '$value'";
+      $query = $this->query("SELECT u.*, ut.nombre AS tipo FROM usuarios u JOIN usuarios_tipo ut ON u.idtipo_usuario = ut.id$sql;");
       $query->execute();
       return $query->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -64,8 +66,9 @@ class UsuarioModel extends Model
 
       $sql = rtrim($sql, ', '); // elimina la última coma y el espacio
       $sql .= " WHERE id = $id;";
-      $query = $this->db->connect()->prepare($sql);
-      if ($query->execute()) return true;
+      $query = $this->query($sql);
+      $query->execute();
+      return true;
     } catch (PDOException $e) {
       error_log("UsuarioModel::update() -> " . $e->getMessage());
       return false;
@@ -75,8 +78,9 @@ class UsuarioModel extends Model
   public function delete($id)
   {
     try {
-      $query = $this->db->connect()->prepare("DELETE FROM usuarios WHERE id = ?;");
-      if ($query->execute([$id])) return true;
+      $query = $this->prepare("DELETE FROM usuarios WHERE id = ?;");
+      $query->execute([$id]);
+      return true;
     } catch (PDOException $e) {
       error_log("UsuarioModel::delete() -> " . $e->getMessage());
       return false;

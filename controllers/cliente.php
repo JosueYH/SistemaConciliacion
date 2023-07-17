@@ -66,7 +66,7 @@ class Cliente extends Controller
 
   public function create()
   {
-    if (empty($_POST['documento']) || empty($_POST['razon_social']) || empty($_POST['telefono']) || empty($_POST['direccion']) || empty($_POST['tipo'])) {
+    if (empty($_POST['documento']) || empty($_POST['razon_social']) || empty($_POST['telefono']) || empty($_POST['tipo'])) {
       echo json_encode(["error" => "Faltan parametros"]);
       return;
     }

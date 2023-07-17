@@ -1,4 +1,4 @@
-<?php session_start();
+<?php
 
 class Login extends Controller
 {
@@ -31,12 +31,7 @@ class Login extends Controller
     if (isset($user['email']) && ($user["email"] == $_POST["email"])) {
       if (password_verify($_POST["password"], $user["password"])) {
         $_SESSION['session'] = 'init';
-
-        $this->view->render('login/index', [
-          "message" => "<div class='alert alert-success alert-dismissible fade show' role='alert'>
-            <strong>Bienvenido</strong>
-          </div>"
-        ]);
+        header("Location: " . URL);
       } else {
         $this->view->render('login/index', [
           "message" => "<div class='alert alert-warning alert-dismissible fade show' role='alert'>

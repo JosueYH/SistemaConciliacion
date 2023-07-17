@@ -2,7 +2,6 @@
 
 class ClienteModel extends Model
 {
-
   public function __construct()
   {
     parent::__construct();
@@ -11,7 +10,7 @@ class ClienteModel extends Model
   public function save($data)
   {
     try {
-      $query = $this->db->connect()->prepare("INSERT INTO clientes (documento, razon_social, telefono, direccion, idtipo_cliente) VALUES (:documento, :razon_social, :telefono, :direccion, :idtipo_cliente);");
+      $query = $this->prepare("INSERT INTO clientes (documento, razon_social, telefono, direccion, idtipo_cliente) VALUES (:documento, :razon_social, :telefono, :direccion, :idtipo_cliente);");
 
       $query->bindParam(':documento', $data['documento'], PDO::PARAM_STR);
       $query->bindParam(':razon_social', $data['razon_social'], PDO::PARAM_STR);
@@ -27,10 +26,10 @@ class ClienteModel extends Model
     }
   }
 
-  public function get($id)
+  public function get($id, $colum = "id")
   {
     try {
-      $query = $this->db->connect()->prepare("SELECT clientes.*, clientes_tipo.nombre AS tipo FROM clientes JOIN clientes_tipo ON clientes.idtipo_cliente = clientes_tipo.id WHERE clientes.id = ?;");
+      $query = $this->prepare("SELECT clientes.*, clientes_tipo.nombre AS tipo FROM clientes JOIN clientes_tipo ON clientes.idtipo_cliente = clientes_tipo.id WHERE clientes.$colum = ?;");
       $query->execute([$id]);
       return $query->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -42,7 +41,7 @@ class ClienteModel extends Model
   public function getAll()
   {
     try {
-      $query = $this->db->connect()->query("SELECT clientes.*, clientes_tipo.nombre AS tipo FROM clientes JOIN clientes_tipo ON clientes.idtipo_cliente = clientes_tipo.id;");
+      $query = $this->query("SELECT clientes.*, clientes_tipo.nombre AS tipo FROM clientes JOIN clientes_tipo ON clientes.idtipo_cliente = clientes_tipo.id;");
       $query->execute();
       return $query->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -54,7 +53,7 @@ class ClienteModel extends Model
   public function update($data)
   {
     try {
-      $query = $this->db->connect()->prepare("UPDATE clientes SET documento = :documento, razon_social = :razon_social, telefono = :telefono, direccion = :direccion, idtipo_cliente = :idtipo_cliente WHERE id = :id;");
+      $query = $this->prepare("UPDATE clientes SET documento = :documento, razon_social = :razon_social, telefono = :telefono, direccion = :direccion, idtipo_cliente = :idtipo_cliente WHERE id = :id;");
 
       $query->bindParam(':id', $data['id'], PDO::PARAM_INT);
       $query->bindParam(':documento', $data['documento'], PDO::PARAM_STR);
@@ -74,7 +73,7 @@ class ClienteModel extends Model
   public function delete($id)
   {
     try {
-      $query = $this->db->connect()->prepare("DELETE FROM clientes WHERE id = ?;");
+      $query = $this->prepare("DELETE FROM clientes WHERE id = ?;");
       if ($query->execute([$id])) return true;
     } catch (PDOException $e) {
       error_log("ClienteModel::delete() -> " . $e->getMessage());

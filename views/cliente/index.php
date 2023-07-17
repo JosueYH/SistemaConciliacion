@@ -88,7 +88,7 @@
                 <div class="col-12">
                   <div class="mb-3">
                     <label class="form-label" for="direccion">Dirección</label>
-                    <input type="text" class="form-control" id="direccion" placeholder="AV Lima etc" pattern="[0-9a-zA-ZáéíóúÁÉÍÓÚÑñ ]+" required>
+                    <input type="text" class="form-control" id="direccion" placeholder="AV Lima etc" pattern="[0-9a-zA-ZáéíóúÁÉÍÓÚÑñ ]+">
                     <div class="invalid-feedback">Ingrese Dirección</div>
                   </div>
                 </div>

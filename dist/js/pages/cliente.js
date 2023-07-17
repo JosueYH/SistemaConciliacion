@@ -84,7 +84,6 @@ $("#form_clientes").submit(function (e) {
 $(document).on("click", "button.edit", function () {
   $("#accion").val("edit");
   $("#modal_clientes").modal("toggle");
-  $("#password").removeAttr("required");
   $.ajax({
     type: "POST",
     url: url_base + "/get",
