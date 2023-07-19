@@ -7,7 +7,7 @@ function loadTable() {
     ajax: {
       type: "post",
       url: url_base + "/index",
-      data: {},
+      data: { usuario: $("#usuario").val() },
     },
     language,
     order: [[0, "desc"]],
@@ -147,5 +147,63 @@ $(document).on("click", "button.delete", function () {
         },
       });
     }
+  });
+});
+
+// ? Subir acta
+$("#upload_acta").click(function (e) {
+  e.preventDefault();
+  let data = new FormData();
+  data.append("solicitud", $("#id").val());
+  data.append("acta", $("#file")[0].files[0]);
+  $.ajax({
+    type: "post",
+    url: url_base + "/uploadActa",
+    data,
+    contentType: false,
+    processData: false,
+    success: function (response) {
+      response = JSON.parse(response);
+      if ("success" in response) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: response.success,
+        });
+        loadTable();
+      } else {
+        Swal.fire({
+          position: "center",
+          icon: "warning",
+          title: response.error,
+        });
+      }
+    },
+  });
+});
+
+// ? Cambiar estado
+$(document).on("click", "button.estado", function () {
+  $.ajax({
+    type: "POST",
+    url: `${url_base}/updateStatus`,
+    data: { id: $(this).attr("id") },
+    dataType: "json",
+    success: function (response) {
+      if ("success" in response) {
+        Swal.fire({
+          title: "¡Éxito!",
+          text: response.success,
+          icon: "success",
+        });
+        loadTable();
+      } else {
+        Swal.fire({
+          title: "¡Error!",
+          text: response.error,
+          icon: "error",
+        });
+      }
+    },
   });
 });

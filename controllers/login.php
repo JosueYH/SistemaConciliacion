@@ -12,7 +12,7 @@ class Login extends Controller
 
   public function render()
   {
-    $this->view->render('login/index', ["message" => 'vacio']);
+    $this->view->render('login/index', ["message" => '']);
   }
 
   public function auth()
@@ -31,7 +31,10 @@ class Login extends Controller
     if (isset($user['email']) && ($user["email"] == $_POST["email"])) {
       if (password_verify($_POST["password"], $user["password"])) {
         $_SESSION['session'] = 'init';
-        header("Location: " . URL);
+        $_SESSION['usuario'] = $user['id'];
+        $_SESSION['tipo'] = $user['idtipo_usuario'];
+        $_SESSION['nombres'] = $user['nombres'];
+        header("Location: " . URL . 'main');
       } else {
         $this->view->render('login/index', [
           "message" => "<div class='alert alert-warning alert-dismissible fade show' role='alert'>

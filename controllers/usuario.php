@@ -152,4 +152,9 @@ class Usuario extends Controller
     $tipos = new CargoModel();
     return $tipos->getAll();
   }
+
+  public function getUsuario($id)
+  {
+    return $this->model->get($id);
+  }
 }

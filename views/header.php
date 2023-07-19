@@ -34,6 +34,7 @@
 </head>
 
 <!-- sidebar-collapse -->
+
 <body class="hold-transition sidebar-mini layout-fixed">
   <div class="wrapper">
 
@@ -92,146 +93,249 @@
             <img src="<?= URL ?>dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
           </div>
           <div class="info">
-            <a href="#" class="d-block">Alexander Pierce</a>
+            <a href="#" class="d-block"><?= $_SESSION['nombres'] ?></a>
           </div>
         </div>
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
           <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-            <li class="nav-item d-none">
-              <a href="pages/widgets.html" class="nav-link">
-                <i class="nav-icon fas fa-th"></i>
-                <p>
-                  Widgets
-                  <span class="right badge badge-danger">New</span>
-                </p>
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-users"></i>
-                <p>
-                  Usuarios
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="<?= URL ?>usuario" class="nav-link">
-                    <i class="fas fa-angle-right nav-icon"></i>
-                    <p>Listado</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="<?= URL ?>usuariotipos" class="nav-link">
-                    <i class="fas fa-angle-right nav-icon"></i>
-                    <p>Tipos de Usuario</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="<?= URL ?>cargo" class="nav-link">
-                    <i class="fas fa-angle-right nav-icon"></i>
-                    <p>Cargos</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-map-marked-alt"></i>
-                <p>
-                  Localidades
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="<?= URL ?>departamento" class="nav-link">
-                    <i class="fas fa-angle-right nav-icon"></i>
-                    <p>Departamentos</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="<?= URL ?>provincia" class="nav-link">
-                    <i class="fas fa-angle-right nav-icon"></i>
-                    <p>Provincias</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="<?= URL ?>distrito" class="nav-link">
-                    <i class="fas fa-angle-right nav-icon"></i>
-                    <p>Distritos</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon far fa-building"></i>
-                <p>
-                  Clientes
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="<?= URL ?>cliente" class="nav-link">
-                    <i class="fas fa-angle-right nav-icon"></i>
-                    <p>Listado</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="<?= URL ?>clientetipos" class="nav-link">
-                    <i class="fas fa-angle-right nav-icon"></i>
-                    <p>Tipos de Clientes</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-suitcase"></i>
-                <p>
-                  Materias
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="<?= URL ?>materia" class="nav-link">
-                    <i class="fas fa-angle-right nav-icon"></i>
-                    <p>Listado</p>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="<?= URL ?>materiatipos" class="nav-link">
-                    <i class="fas fa-angle-right nav-icon"></i>
-                    <p>Tipos de Materias</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link">
-                <i class="nav-icon far fa-folder"></i>
-                <p>
-                  Solicitudes
-                  <i class="right fas fa-angle-left"></i>
-                </p>
-              </a>
-              <ul class="nav nav-treeview">
-                <li class="nav-item">
-                  <a href="<?= URL ?>solicitud" class="nav-link">
-                    <i class="fas fa-angle-right nav-icon"></i>
-                    <p>Listado</p>
-                  </a>
-                </li>
-              </ul>
-            </li>
+            <?php if ($_SESSION['tipo'] == 1) : ?>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-users"></i>
+                  <p>
+                    Usuarios
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="<?= URL ?>usuario" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Listado</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?= URL ?>usuariotipos" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Tipos de Usuario</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?= URL ?>cargo" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Cargos</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-map-marked-alt"></i>
+                  <p>
+                    Localidades
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="<?= URL ?>departamento" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Departamentos</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?= URL ?>provincia" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Provincias</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?= URL ?>distrito" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Distritos</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon far fa-building"></i>
+                  <p>
+                    Clientes
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="<?= URL ?>cliente" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Listado</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?= URL ?>clientetipos" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Tipos de Clientes</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-suitcase"></i>
+                  <p>
+                    Materias
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="<?= URL ?>materia" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Listado</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?= URL ?>materiatipos" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Tipos de Materias</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon far fa-folder"></i>
+                  <p>
+                    Solicitudes
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="<?= URL ?>solicitud" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Listado</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            <?php elseif ($_SESSION['tipo'] == 2) : ?>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-map-marked-alt"></i>
+                  <p>
+                    Localidades
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="<?= URL ?>departamento" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Departamentos</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?= URL ?>provincia" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Provincias</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?= URL ?>distrito" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Distritos</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon far fa-building"></i>
+                  <p>
+                    Clientes
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="<?= URL ?>cliente" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Listado</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?= URL ?>clientetipos" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Tipos de Clientes</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon fas fa-suitcase"></i>
+                  <p>
+                    Materias
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="<?= URL ?>materia" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Listado</p>
+                    </a>
+                  </li>
+                  <li class="nav-item">
+                    <a href="<?= URL ?>materiatipos" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Tipos de Materias</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon far fa-folder"></i>
+                  <p>
+                    Solicitudes
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="<?= URL ?>solicitud" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Listado</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            <?php else : ?>
+              <li class="nav-item">
+                <a href="#" class="nav-link">
+                  <i class="nav-icon far fa-folder"></i>
+                  <p>
+                    Solicitudes
+                    <i class="right fas fa-angle-left"></i>
+                  </p>
+                </a>
+                <ul class="nav nav-treeview">
+                  <li class="nav-item">
+                    <a href="<?= URL ?>solicitud" class="nav-link">
+                      <i class="fas fa-angle-right nav-icon"></i>
+                      <p>Listado</p>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            <?php endif; ?>
           </ul>
+          <input type="hidden" id="usuario" value="<?= $_SESSION['usuario'] ?>">
         </nav>
-        <!-- /.sidebar-menu -->
       </div>
-      <!-- /.sidebar -->
     </aside>

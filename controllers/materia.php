@@ -12,7 +12,9 @@ class Materia extends Controller
 
   public function render()
   {
-    $this->view->render('materia/index');
+    $this->view->render('materia/index', [
+      "materiasTipos" => $this->getTipos()
+    ]);
   }
 
   public function index()
@@ -27,6 +29,7 @@ class Materia extends Controller
         $data[] = [
           $materia["id"],
           $materia["nombre"],
+          $materia["tipo"],
           $botones,
         ];
       }
@@ -54,12 +57,12 @@ class Materia extends Controller
 
   public function create()
   {
-    if (empty($_POST['nombre'])) {
+    if (empty($_POST['nombre']) || empty($_POST['tipo'])) {
       echo json_encode(["error" => "Faltan parametros"]);
       return;
     }
 
-    if ($this->model->save($_POST['nombre'])) {
+    if ($this->model->save($_POST['nombre'], $_POST['tipo'])) {
       echo json_encode(["success" => "materia registrado"]);
       return;
     } else {
@@ -70,12 +73,12 @@ class Materia extends Controller
 
   public function edit()
   {
-    if (empty($_POST['id']) || empty($_POST['nombre'])) {
+    if (empty($_POST['id']) || empty($_POST['nombre']) || empty($_POST['tipo'])) {
       echo json_encode(["error" => "Faltan parametros"]);
       return;
     }
 
-    if ($this->model->update($_POST['nombre'], $_POST['id'])) {
+    if ($this->model->update($_POST['nombre'], $_POST['tipo'], $_POST['id'])) {
       echo json_encode(["success" => "materia actualizado"]);
       return;
     } else {
@@ -98,5 +101,12 @@ class Materia extends Controller
       echo json_encode(["error" => "Error al eliminar materia"]);
       return;
     }
+  }
+
+  public function getTipos()
+  {
+    require_once 'models/materiaTiposModel.php';
+    $tipos = new MateriaTiposModel();
+    return $tipos->getAll();
   }
 }

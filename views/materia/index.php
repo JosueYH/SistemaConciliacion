@@ -34,6 +34,7 @@
                   <tr>
                     <th>ID</th>
                     <th>Materia</th>
+                    <th>Tipo</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>
@@ -64,6 +65,22 @@
                     <label class="form-label" for="nombre">Nombre</label>
                     <input type="text" class="form-control" id="nombre" placeholder="Nombre" required pattern="[a-zA-ZáéíóúÁÉÍÓÚÑñ ]+">
                     <div class="invalid-feedback">Ingrese nombre</div>
+                  </div>
+                </div>
+
+
+                <div class="col-12">
+                  <div class="mb-3">
+                    <label class="form-label" for="tipo">Tipo de materia</label>
+                    <select class="form-control" id="tipo" required>
+                      <option value="" selected disabled>__ Seleccione __</option>
+                      <?php
+                      foreach ($this->d['materiasTipos'] as $tipo) {
+                        echo "<option value='{$tipo['id']}'>{$tipo['nombre']}</option>";
+                      }
+                      ?>
+                    </select>
+                    <div class="invalid-feedback">Seleccione tipo de materia</div>
                   </div>
                 </div>
 

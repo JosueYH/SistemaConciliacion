@@ -23,10 +23,12 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-            <div class="card-header">
-              <button id="new_solicitud" class="btn btn-primary" data-toggle="modal" data-target="#modal_solicitud">
-                <i class="fas fa-plus"></i> Añadir solicitud</button>
-            </div>
+            <?php if ($_SESSION['tipo'] != 3) : ?>
+              <div class="card-header">
+                <button id="new_solicitud" class="btn btn-primary" data-toggle="modal" data-target="#modal_solicitud">
+                  <i class="fas fa-plus"></i> Añadir solicitud</button>
+              </div>
+            <?php endif; ?>
 
             <div class="card-body">
               <table id="table_solicitud" class="table table-bordered table-hover w-100">
@@ -118,25 +120,49 @@
                   <fieldset>
                     <legend>Solicitud</legend>
 
-                    <div class="col-12">
-                      <div class="mb-3">
-                        <label class="form-label" for="abogado">Abogado a cargo</label>
-                        <select class="form-control" id="abogado" required>
-                          <option value="" selected disabled>__ Seleccione __</option>
-                          <?php
-                          foreach ($this->d['abogados'] as $abogado) {
-                            echo "<option value='{$abogado['id']}'>{$abogado['nombres']}</option>";
-                          }
-                          ?>
-                        </select>
-                        <div class="invalid-feedback">Seleccione abogado</div>
+                    <?php if ($_SESSION['tipo'] != 3) : ?>
+                      <div class="col-12">
+                        <div class="mb-3">
+                          <label class="form-label" for="abogado">Abogado a cargo</label>
+                          <select class="form-control" id="abogado" required>
+                            <option value="" selected disabled>__ Seleccione __</option>
+                            <?php
+                            foreach ($this->d['abogados'] as $abogado) {
+                              echo "<option value='{$abogado['id']}'>{$abogado['nombres']}</option>";
+                            }
+                            ?>
+                          </select>
+                          <div class="invalid-feedback">Seleccione abogado</div>
+                        </div>
                       </div>
-                    </div>
+                    <?php endif; ?>
+
+                    <?php if ($_SESSION['tipo'] == 3) : ?>
+                      <div class="col-12">
+                        <div class="mb-3">
+                          <label class="form-label">Formato de acta</label>
+                          <a href="<?= URL ?>dist/docs/actas/solicito%20desitimiento.docx" download="solicito_desitimiento.docx">Descargar <i class="fas fa-download"></i></a>
+                        </div>
+                      </div>
+                      <div class="col-12">
+                        <div class="mb-3">
+                          <label class="form-label" for="file">Seleccionar Archivo</label>
+                          <input type="file" class="form-control" id="file" accept=".docx, .doc, .pdf">
+                          <input type="hidden" name="files">
+                          <div class="invalid-feedback">Seleccione</div>
+                        </div>
+                        <div class="mb-3">
+                          <button id="upload_acta" class="btn btn-primary">Subir acta</button>
+                        </div>
+                      </div>
+                    <?php endif; ?>
                   </fieldset>
                 </div>
-                <div class="col-md-12 mt-3 text-right">
-                  <button class="btn btn-primary" id="btn_add" type="submit">Guardar cliente</button>
-                </div>
+                <?php if ($_SESSION['tipo'] != 3) : ?>
+                  <div class="col-md-12 mt-3 text-right">
+                    <button class="btn btn-primary" id="btn_add" type="submit">Guardar cliente</button>
+                  </div>
+                <?php endif; ?>
               </div>
             </form>
           </div>

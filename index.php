@@ -16,9 +16,8 @@ require_once 'libs/app.php';
 
 require_once 'libs/applogin.php';
 
+require_once 'controllers/cliente.php';
+require_once 'controllers/usuario.php';
+
 session_start();
-if (isset($_SESSION['session'])) {
-  $app = new App();
-} else {
-  $app = new AppLogin();
-}
+$app = new App();

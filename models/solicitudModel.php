@@ -11,7 +11,7 @@ class SolicitudModel extends Model
   public function get($id)
   {
     try {
-      $query = $this->prepare("SELECT s.*, c.idtipo_cliente AS tipo FROM solicitudes s JOIN clientes c ON s.idcliente = c.id WHERE s.id = ?;");
+      $query = $this->prepare("SELECT c.idtipo_cliente AS tipo, c.*, s.* FROM solicitudes s JOIN clientes c ON s.idcliente = c.id WHERE s.id = ?;");
       $query->execute([$id]);
       return $query->fetch(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -20,10 +20,12 @@ class SolicitudModel extends Model
     }
   }
 
-  public function getAll()
+  public function getAll($id = null)
   {
     try {
-      $query = $this->query("SELECT s.*, u.nombres AS abogado, c.razon_social AS cliente FROM solicitudes s JOIN usuarios u ON s.idusuario = u.id JOIN clientes c ON s.idcliente = c.id;");
+      $sql = "";
+      if ($id !== null) $sql = " WHERE s.idusuario = $id";
+      $query = $this->query("SELECT s.*, u.nombres AS abogado, c.razon_social AS cliente FROM solicitudes s JOIN usuarios u ON s.idusuario = u.id JOIN clientes c ON s.idcliente = c.id$sql;");
       $query->execute();
       return $query->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -92,6 +94,18 @@ class SolicitudModel extends Model
       return ($nExp == null) ? 1 : $nExp++;
     } catch (PDOException $e) {
       error_log("SolicitudModel::getMax() -> " . $e->getMessage());
+      return false;
+    }
+  }
+
+  public function updateColum($colum, $value, $id)
+  {
+    try {
+      $query = $this->query("UPDATE solicitudes SET $colum = '$value' WHERE id = $id;");
+      $query->execute();
+      return true;
+    } catch (PDOException $e) {
+      error_log("SolicitudModel::updateUrl() -> " . $e->getMessage());
       return false;
     }
   }

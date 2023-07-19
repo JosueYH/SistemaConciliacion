@@ -23,16 +23,19 @@ $("#new_materia").click(function (e) {
   $("#accion").val("create");
 });
 
-$("#form_materias input").on("input", function () {
-  if (this.checkValidity()) {
-    $(this).removeClass("is-invalid");
+$("#form_materias input, #form_materias select").on(
+  "input change",
+  function () {
+    if (this.checkValidity()) {
+      $(this).removeClass("is-invalid");
+    }
   }
-});
+);
 
 // ? Agregar nuevo materia
 $("#form_materias").submit(function (e) {
   e.preventDefault();
-  $("#form_materias input").each(function () {
+  $("#form_materias input, #form_materias select").each(function () {
     if (!this.checkValidity()) {
       $(this).addClass("is-invalid");
     } else {
@@ -48,6 +51,7 @@ $("#form_materias").submit(function (e) {
       data: {
         id: $("#id").val(),
         nombre: $("#nombre").val(),
+        tipo: $("#tipo").val(),
       },
       dataType: "json",
       success: function (response) {
@@ -86,6 +90,7 @@ $(document).on("click", "button.edit", function () {
       if ("success" in response) {
         $("#id").val(response.materia.id);
         $("#nombre").val(response.materia.nombre);
+        $("#tipo").val(response.materia.idtipo_materia);
       } else {
         Swal.fire({
           title: "¡Error!",
