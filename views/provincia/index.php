@@ -33,8 +33,8 @@
                 <thead>
                   <tr>
                     <th>ID</th>
-                    <th>Departamento</th>
                     <th>Provincia</th>
+                    <th>Departamento</th>
                     <th>Acciones</th>
                   </tr>
                 </thead>

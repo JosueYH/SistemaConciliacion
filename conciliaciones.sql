@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1:3306
--- Tiempo de generación: 18-07-2023 a las 23:02:00
+-- Tiempo de generación: 19-07-2023 a las 22:24:28
 -- Versión del servidor: 8.0.31
 -- Versión de PHP: 8.0.26
 
@@ -125,15 +125,17 @@ CREATE TABLE IF NOT EXISTS `distritos` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nombre` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
   `idprovincia` int NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  PRIMARY KEY (`id`),
+  KEY `fk-provincia_idx` (`idprovincia`)
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `distritos`
 --
 
 INSERT INTO `distritos` (`id`, `nombre`, `idprovincia`) VALUES
-(1, 'Castilla', 1);
+(1, 'Castillas', 1),
+(10, 'asdfasdf', 1);
 
 -- --------------------------------------------------------
 
@@ -191,14 +193,15 @@ CREATE TABLE IF NOT EXISTS `provincias` (
   `iddepartamento` int NOT NULL,
   PRIMARY KEY (`id`),
   KEY `fk_departamento_idx` (`iddepartamento`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `provincias`
 --
 
 INSERT INTO `provincias` (`id`, `nombre`, `iddepartamento`) VALUES
-(1, 'Piura', 1);
+(1, 'Piura', 1),
+(2, 'da', 1);
 
 -- --------------------------------------------------------
 
@@ -298,7 +301,7 @@ ALTER TABLE `clientes`
 -- Filtros para la tabla `distritos`
 --
 ALTER TABLE `distritos`
-  ADD CONSTRAINT `fk_provincias` FOREIGN KEY (`id`) REFERENCES `provincias` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk-provincia` FOREIGN KEY (`idprovincia`) REFERENCES `provincias` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `materias`
