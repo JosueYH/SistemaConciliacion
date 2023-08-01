@@ -6,7 +6,7 @@ class App
 {
   public function __construct()
   {
-    $url = isset($_GET['url']) ? $_GET['url'] : null;
+    $url = $_GET['url'] ?? '';
     $url = rtrim($url, '/');
     $url = explode('/', $url);
 
@@ -24,14 +24,14 @@ class App
     //condicional, si es que exites un archivo en esta rita
     if (file_exists($fileController)) {
       require_once $fileController;
-      
+
       $controller = new $url[0];
       $controller->loadModel($url[0]);
-      
-      $tipo = isset($_SESSION['tipo']) ? $_SESSION['tipo'] : 0;
-      
+
+      $tipo = $_SESSION['tipo'] ?? 0;
+
       if ($controller->hasAccess($url[0], $tipo)) {
-        
+
         //numero de parametros, o eliemntos del link
         $parameters = sizeof($url);
 
